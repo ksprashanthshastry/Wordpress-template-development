@@ -38,7 +38,7 @@ $book_detail = $wpdb->get_row(
           <div class="form-group">
             <label class="control-label col-sm-2" for="about">About:</label>
             <div class="mb-3">
-              <textarea name="about" class="form-control" id="about" rows="8" cols="80" required placeholder="Enter the About"><?php echo $book_detail['about']?></textarea>
+              <textarea name="about" class="form-control" id="about" rows="8" cols="80" placeholder="Enter the About"><?php echo $book_detail['about']?></textarea>
             </div>
           </div>
 

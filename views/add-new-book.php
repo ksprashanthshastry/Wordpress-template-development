@@ -1,7 +1,5 @@
 <?php wp_enqueue_media(); ?>
 
-
-
 <div class="container">
   <div class="row">
     <div class="card">
@@ -22,14 +20,31 @@
           <div class="mb-3">
             <label class="control-label col-sm-2" for="author">Author:</label>
             <div class="mb-3">
-              <input type="text" class="form-control" id="author" name="author" required placeholder="Enter the name of the Author">
+              <select class="form-control" id="author" name="author">
+                <option value="-1">  -- choose author --  </option>
+                <?php 
+                global $wpdb;
+
+                  $all_authors = $wpdb->get_results(
+                    $wpdb->prepare(
+                      "SELECT * from ".bk_authors_table().""
+                      )
+                  );
+                  foreach($all_authors as $index=>$author){
+                  ?>
+                  <option value="<?php echo $author->id; ?>"> <?php echo $author->name; ?></option>                
+                  <?php
+                  }
+                ?>
+                
+              </select>
             </div>
           </div>
 
           <div class="mb-3">
             <label class="control-label col-sm-2" for="about">About:</label>
             <div class="mb-3">
-              <textarea name="about" class="form-control" id="about" rows="8" cols="80" required placeholder="Enter the About"></textarea>
+              <textarea name="about" class="form-control" id="about" rows="8" cols="80" placeholder="Enter the About"></textarea>
             </div>
           </div>
 

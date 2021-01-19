@@ -1,6 +1,5 @@
 jQuery(document).ready(function() {
 
-
     jQuery("#btn-upload").on("click", function(){
         var image = wp.media({
         title:"Upload image for the book", multiple:false
@@ -50,6 +49,7 @@ jQuery(document).ready(function() {
         });
       }
     });
+
     jQuery("#frmEditBook").validate({
     submitHandler:function(){
         var postData = "action=bookkeeperlibrary&param=edit_book&" + jQuery("#frmEditBook").serialize();
@@ -69,5 +69,24 @@ jQuery(document).ready(function() {
 
         });
     }
+    });
+
+    jQuery("#frmAddAuthor").validate({
+      submitHandler:function(){
+          var postData = "action=bookkeeperlibrary&param=save_author&" + jQuery("#frmAddAuthor").serialize();
+          jQuery.post(bookkeeperajaxurl, postData, function(response){
+            var data = jQuery.parseJSON(response);
+            if(data.status==1){
+              jQuery.notifyBar({
+              cssClass:"success",
+              html:data.message
+              });
+              setTimeout(function(){
+                window.location.reload();
+              },1300)
+            }else{
+            }
+          });
+        }
     });
 });
