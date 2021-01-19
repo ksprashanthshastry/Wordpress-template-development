@@ -66,8 +66,8 @@ function book_keeper_menus(){
 
     add_submenu_page(
       "book-list", // parent slug
-      "book-list", // page title page=edit-book
-      "book-list", // menu title
+      "", // page title page=edit-book
+      "", // menu title
       "manage_options", // capability or access
       "edit-book", // menu slug
       "edit_book"); //call back function
@@ -99,12 +99,13 @@ function book_keeper_create_table(){
   require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 
   $sql = "CREATE TABLE `". book_keeper_table() ."` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
   `about` text,
   `book_image` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
   dbDelta($sql);
 }
@@ -131,7 +132,25 @@ function book_keeper_ajax_handler(){
       "book_image"=>$_REQUEST["image_name"]
     ));
     echo json_encode(array("status"=>1,"message"=>"Book created successfully"));
+  }elseif ($_REQUEST['param']=="edit_book") {
+    $wpdb->update(book_keeper_table(), array(
+      "name"=>$_REQUEST['name'],
+      "author"=>$_REQUEST["author"],
+      "about"=>$_REQUEST["about"],
+      "book_image"=>$_REQUEST["image_name"]
+    ),array(
+      "id"=>$_REQUEST['book_id']
+    ));
+    echo json_encode(array("status"=>1,"message"=>"Book updated successfully"));
+
+  }elseif ($_REQUEST['param']=="delete_book") {
+    $wpdb->delete(book_keeper_table(),array(
+      "id"=>$_REQUEST['id']
+    ));
+    echo json_encode(array("status"=>1,"message"=>"Book deleted successfully"));
+
   }
+
 
   wp_die();
 }

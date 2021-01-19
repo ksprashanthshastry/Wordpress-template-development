@@ -1,4 +1,4 @@
-<?php 
+<?php
   global $wpdb;
   $all_books = $wpdb->get_results(
     $wpdb->prepare("SELECT * from ".book_keeper_table(). ""),ARRAY_A
@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-              <?php 
+              <?php
               if(count($all_books)>0){
                 $i = 1;
                 foreach ($all_books as $key=>$value){
@@ -39,13 +39,13 @@
                     <td><img src="<?php echo $value['book_image'];?>" style="height:80px;width:80px" ></td>
                     <td><?php echo $value['created_at'];?></td>
                     <td>
-                      <a class="btn btn-info" href="javascript:void(0)">Edit</a>
-                      <a class="btn btn-danger" href="javascript:void(0)">Delete</a>
+                      <a class="btn btn-info" href="admin.php?page=edit-book&edit=<?php echo $value['id']; ?>">Edit</a>
+                      <a class="btn btn-danger btnbookdelete" href="javascript:void(0)" data-id="<?php echo $value['id']; ?>">Delete</a>
                     </td>
 
 
                   </tr>
-                  
+
                   <?php
                 }
               }
