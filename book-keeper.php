@@ -57,26 +57,20 @@ function book_keeper_menus(){
     "books_list"); //call back function
 
     add_submenu_page(
-      "book-list", // parent slug
-      "Add New", // page title
-      "Add New", // menu title
-      "manage_options", // capability or access
-      "add-new", // menu slug
-      "add_new_book"); //call back function
+      "book-list", "Add New", "Add New","manage_options","add-new","add_new_book");
 
     add_submenu_page(
-      "book-list", // parent slug
-      "", // page title page=edit-book
-      "", // menu title
-      "manage_options", // capability or access
-      "edit-book", // menu slug
-      "edit_book"); //call back function
+      "book-list","","", "manage_options","edit-book","edit_book");
 
-}
+    /// my extended submenus
+    add_submenu_page("book-list", "Add New Author", "Add New Author", "manage_options", "add-author", "bk_add_author");
+    add_submenu_page("book-list", "Manage Author", "Manage Author", "manage_options", "remove-author", "bk_remove_author");
+    add_submenu_page("book-list", "Add New Student", "Add New Student", "manage_options", "add-student", "bk_add_student");
+    add_submenu_page("book-list", "Manage Student", "Manage Student", "manage_options", "remove-student", "bk_remove_student");
+    add_submenu_page("book-list", "Course Tracker", "Course Tracker", "manage_options", "course-tracker", "bk_course_tracker");
+    }
 
 add_action("admin_menu", "book_keeper_menus");
-
-
 function books_list(){
   include_once BOOK_KEEPER_DIR_PATH."/views/book-list.php";
 }
@@ -87,11 +81,47 @@ function edit_book(){
   include_once BOOK_KEEPER_DIR_PATH."/views/edit-book.php";
 }
 
+function bk_add_author(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_add_author.php";
+}
+
+function bk_remove_author(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_manage_author.php";
+
+}
+
+function bk_add_student(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_add_student.php";
+}
+
+function bk_remove_student(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_remove_student.php";
+}
+
+function bk_course_tracker(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_course_tracker.php";
+}
+
 
 
 function book_keeper_table(){
   global $wpdb;
   return $wpdb->prefix."book_keeper";
+}
+
+function bk_authors_table(){
+  global $wpdb;
+  return $wpdb->prefix."bk_authors_table";
+}
+
+function bk_students_table(){
+  global $wpdb;
+  return $wpdb->prefix."bk_students_table";
+}
+
+function bk_enrol_table(){
+  global $wpdb;
+  return $wpdb->prefix."bk_enrol_table";
 }
 
 function book_keeper_create_table(){
@@ -108,13 +138,48 @@ function book_keeper_create_table(){
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
   dbDelta($sql);
+
+  $sql_author = "CREATE TABLE `". bk_authors_table() ."` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `fb_link` text,
+    `about` text,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
+  dbDelta($sql_author);
+
+  $sql_students = "CREATE TABLE `". bk_students_table() ."` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `email` varchar(255) DEFAULT NULL,
+    `user_login_id` int(11) DEFAULT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+  dbDelta($sql_students);
+
+  $sql_enrol = "CREATE TABLE `". bk_enrol_table() ."` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `student_id` int(11) NOT NULL
+    `book_id` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+  dbDelta($sql_enrol);
+
 }
 
 register_activation_hook(__FILE__, "book_keeper_create_table");
 
+
 function drop_table_db(){
   global $wpdb;
   $wpdb->query("DROP table IF EXISTS " . book_keeper_table());
+  // $wpdb->query("DROP table IF EXISTS " . bk_authors_table());
+  // $wpdb->query("DROP table IF EXISTS " . bk_students_table());
+  // $wpdb->query("DROP table IF EXISTS " . bk_enrol_table());
   //$wpdb->query("DROP TABLE IF EXISTS". book_keeper_table());
 }
 register_deactivation_hook(__FILE__ , "drop_table_db");
