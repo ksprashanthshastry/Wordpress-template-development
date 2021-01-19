@@ -66,8 +66,8 @@ function book_keeper_menus(){
 
     add_submenu_page(
       "book-list", // parent slug
-      "", // page title page=edit-book
-      "", // menu title
+      "book-list", // page title page=edit-book
+      "book-list", // menu title
       "manage_options", // capability or access
       "edit-book", // menu slug
       "edit_book"); //call back function
@@ -117,3 +117,21 @@ function drop_table_db(){
   //$wpdb->query("DROP TABLE IF EXISTS". book_keeper_table());
 }
 register_deactivation_hook(__FILE__ , "drop_table_db");
+
+
+add_action("wp_ajax_bookkeeperlibrary", "book_keeper_ajax_handler");
+function book_keeper_ajax_handler(){
+  global $wpdb;
+  if ($_REQUEST['param']=="save_book"){
+    //save data to debug
+    $wpdb->insert(book_keeper_table(), array(
+      "name"=>$_REQUEST['name'],
+      "author"=>$_REQUEST["author"],
+      "about"=>$_REQUEST["about"],
+      "book_image"=>$_REQUEST["image_name"]
+    ));
+    echo json_encode(array("status"=>1,"message"=>"Book created successfully"));
+  }
+
+  wp_die();
+}

@@ -1,0 +1,7 @@
+#frmAddBook label.error, #frmEditBook label.error{
+  color:red;
+}
+
+.image{
+margin-left: 100px;
+}

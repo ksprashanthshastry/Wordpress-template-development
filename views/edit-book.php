@@ -6,7 +6,7 @@
       </div>
       <div class="card-header text-white bg-secondary">Edit Book Information</div>
       <div class="card-body">
-        <form class="form-horizontal" action="javascript:void(0)" id="frmAddBook">
+        <form class="form-horizontal" action="javascript:void(0)" id="frmEditBook">
 
           <div class="form-group">
             <label class="control-label col-sm-2" for="name">Name:</label>
@@ -31,9 +31,7 @@
 
           <div class="form-group">
             <label class="control-label col-sm-2" for="uploadBookImage">Upload Book Image:</label>
-            <div class="mb-3">
-              <input type="button" class="btn btn-secondary" value="upload image" style="margin-top:5px">
-            </div>
+            <input type="button" class="btn btn-primary" value="upload image" style="margin-top:5px">
           </div>
 
 
