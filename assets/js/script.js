@@ -89,4 +89,28 @@ jQuery(document).ready(function() {
           });
         }
     });
+
+    jQuery("#frmAddStudent").validate({
+      submitHandler:function(){
+          var postData = "action=bookkeeperlibrary&param=save_student&" + jQuery("#frmAddStudent").serialize();
+          jQuery.post(bookkeeperajaxurl, postData, function(response){
+            var data = jQuery.parseJSON(response);
+            if(data.status==1){
+              jQuery.notifyBar({
+              cssClass:"success",
+              html:data.message
+              });
+              setTimeout(function(){
+                window.location.reload();
+              },1300)
+            }else{
+            }
+          });
+        }
+    });
+
+
+
+
+
 });

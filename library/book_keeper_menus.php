@@ -21,8 +21,8 @@ add_submenu_page(
     "book-list", "Add New", "Add New","manage_options","add-new","add_new_book");
   /// my extended submenus
   add_submenu_page("book-list", "Add New Author", "Add New Author", "manage_options", "add-author", "bk_add_author");
-  add_submenu_page("book-list", "Manage Author", "Manage Author", "manage_options", "remove-author", "bk_remove_author");
+  add_submenu_page("book-list", "Manage Author", "Manage Author", "manage_options", "remove-author", "bk_manage_author");
   add_submenu_page("book-list", "Add New Student", "Add New Student", "manage_options", "add-student", "bk_add_student");
-  add_submenu_page("book-list", "Manage Student", "Manage Student", "manage_options", "remove-student", "bk_remove_student");
+  add_submenu_page("book-list", "Manage Student", "Manage Student", "manage_options", "remove-student", "bk_manage_student");
   add_submenu_page("book-list", "Course Tracker", "Course Tracker", "manage_options", "course-tracker", "bk_course_tracker");
   add_submenu_page("book-list","","", "manage_options","edit-book","edit_book");

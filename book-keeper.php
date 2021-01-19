@@ -44,7 +44,7 @@ function bk_add_author(){
   include_once BOOK_KEEPER_DIR_PATH."/views/bk_add_author.php";
 }
 
-function bk_remove_author(){
+function bk_manage_author(){
   include_once BOOK_KEEPER_DIR_PATH."/views/bk_manage_author.php";
 }
 
@@ -52,8 +52,8 @@ function bk_add_student(){
   include_once BOOK_KEEPER_DIR_PATH."/views/bk_add_student.php";
 }
 
-function bk_remove_student(){
-  include_once BOOK_KEEPER_DIR_PATH."/views/bk_remove_student.php";
+function bk_manage_student(){
+  include_once BOOK_KEEPER_DIR_PATH."/views/bk_manage_student.php";
 }
 
 function bk_course_tracker(){
@@ -88,6 +88,10 @@ function book_keeper_create_table(){
 }
 register_activation_hook(__FILE__, "book_keeper_create_table");
 
+function book_page_functions(){
+  echo "This is my book page content";
+}
+add_shortcode("book_page","book_page_functions");
 //drops/deletes tables in db upon deactivation
 function drop_table_db(){
   global $wpdb;
